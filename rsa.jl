@@ -8,14 +8,13 @@ a^b (mod n) using the method of repeated squares.
 
 function powerMod(a, d, n)
     v = 1
-    t = d
     p = a
-    while t > 0
-        if odd(t)
+    while d > 0
+        if odd(d)
            v = (v * p) % n
         end
         p = p^2 % n
-        t >>>= 1
+        d >>>= 1
     end
     return v
 end
@@ -104,40 +103,40 @@ good enough.
 =#
 
 function randomPrime(low, high)
-    guess = 0
+    guess = 0   # Certainly not prime!
     while !isPrime(guess, 100)
-        guess = rand(low:high)
+        guess = rand(low:high)  # Half will be even, the rest have Pr[prime] ≈ 1/log(N).
     end
     return guess
 end
 
 #=
-An RSA key is a triple (e, d, n)
+An RSA key is a triple (e, d, n):
 
-e is the public exponent
-d is the private exponent
-n is the modulus
+    e is the public exponent
+    d is the private exponent
+    n is the modulus
 =#
 
 function makeKey(bits)
     size = bits ÷ 2
-    low  = big"2"^(size - 1)
-    high = big"2"^(size + 1)
+    low  = big"2"^(size - 1)    # Assure the primes are each approximately half of the
+    high = big"2"^(size + 1)    # bits in the modulus.
     p = randomPrime(low, high)
     q = randomPrime(low, high)
-    𝝺 = lcm(p - 1, q - 1)
-    e = 2^16 + 1
-    while gcd(e, 𝝺) ≠ 1
+    𝝺 = lcm(p - 1, q - 1)   # Carmichael 𝝺(n) = lcm(𝝺(p), 𝝺(q)) = lcm(p - 1, q - 1)
+    e = 2^16 + 1            # A good default public exponent
+    while gcd(e, 𝝺) ≠ 1     # Happens if we are very unlucky
         e = randomPrime(low, high)
     end
-    d = inverse(e, 𝝺)
-    n = p * q
+    d = inverse(e, 𝝺)   # The private key
+    n = p * q           # The modulus
     return (e, d, n)
 end
 
 #=
-Transform a string into a BigInt, add in 0xAA to avoid unpleasantness.
-Proper PKCS padding will have to wait for now.
+Transform a string into a BigInt, add in 0xAA to avoid unpleasantness. Proper PKCS
+padding will have to wait for now.
 =#
 
 function encode(s)
@@ -163,10 +162,14 @@ function decode(n)
     return s
 end
 
-function encrypt(m, e, n)
-    return powerMod(encode(m), e, n)
-end
+#=
+Accepts a string and returns a BigInt.
+=#
 
-function decrypt(c, d, n)
-    return decode(powerMod(c, d, n))
-end
+encrypt(m, e, n) = powerMod(encode(m), e, n)
+
+#=
+Accepts a BigInt and returns a string.
+=#
+
+decrypt(c, d, n) = decode(powerMod(c, d, n))
