@@ -37,7 +37,7 @@ Least common multiple, necessary for Carmichael's 𝝺 function.
 lcm(a, b) = abs(a * b) ÷ gcd(a, b)
 
 #=
-Witness loop of the Miller-Rabin probablistic primarlity test.
+Witness loop of the Miller-Rabin probabilistic primality test.
 =#
 
 function witness(a, n)
@@ -123,8 +123,8 @@ function makeKey(bits)
     p = randomPrime(low, high)
     q = randomPrime(low, high)
     𝝺 = lcm(p - 1, q - 1)   # Carmichael 𝝺(n) = lcm(𝝺(p), 𝝺(q)) = lcm(p - 1, q - 1)
-    e = 2^16 + 1            # A good default public exponent
-    while gcd(e, 𝝺) ≠ 1     # Happens if we are very unlucky
+    e = 2^16 + 1            # Default public exponent
+    while gcd(e, 𝝺) ≠ 1     # Happens only if we are very unlucky
         e = randomPrime(low, high)
     end
     d = inverse(e, 𝝺)   # The private key
