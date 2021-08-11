@@ -25,9 +25,7 @@ Greatest common divisor, Euclidean version.
 
 function gcd(a, b)
     while b ≠ 0
-        t = b
-        b = a % b
-        a = t
+        (a, b) = (b, a % b)
     end
     return a
 end
