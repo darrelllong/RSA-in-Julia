@@ -1,8 +1,10 @@
 using Random
 
-odd(n) = n % 2 == 1
+odd(n) = n % 2 == 1; even(n) = n % 2 == 0
 
-even(n) = n % 2 == 0
+#=
+a^b (mod n) using the method of repeated squares.
+=#
 
 function powerMod(a, d, n)
     v = 1
@@ -18,6 +20,10 @@ function powerMod(a, d, n)
     return v
 end
 
+#=
+Greatest common divisor, Euclidean version.
+=#
+
 function gcd(a, b)
     while b ≠ 0
         t = b
@@ -27,9 +33,15 @@ function gcd(a, b)
     return a
 end
 
-function lcm(a, b)
-    return abs(a * b) ÷ gcd(a, b)
-end
+#=
+Least common multiple, necessary for Carmichael's 𝝺 function.
+=#
+
+lcm(a, b) = abs(a * b) ÷ gcd(a, b)
+
+#=
+Witness loop of the Miller-Rabin probablistic primarlity test.
+=#
 
 function witness(a, n)
     u = n - 1
@@ -65,6 +77,10 @@ function isPrime(n, k)
     return true
 end
 
+#=
+Multiplicative inverse of a (mod n), using Bézout's identity.
+=#
+
 function inverse(a, n)
     (r, rP) = (n, a)
     (t, tP) = (0, 1)
@@ -82,6 +98,11 @@ function inverse(a, n)
     return t
 end
 
+#=
+We need a random prime number in [low, high] and for now a 1/4^100 chance of a composite is
+good enough.
+=#
+
 function randomPrime(low, high)
     guess = 0
     while !isPrime(guess, 100)
@@ -89,6 +110,14 @@ function randomPrime(low, high)
     end
     return guess
 end
+
+#=
+An RSA key is a triple (e, d, n)
+
+e is the public exponent
+d is the private exponent
+n is the modulus
+=#
 
 function makeKey(bits)
     size = bits ÷ 2
@@ -106,6 +135,11 @@ function makeKey(bits)
     return (e, d, n)
 end
 
+#=
+Transform a string into a BigInt, add in 0xAA to avoid unpleasantness.
+Proper PKCS padding will have to wait for now.
+=#
+
 function encode(s)
     sum = BigInt(0)
     pow = BigInt(1)
@@ -115,6 +149,10 @@ function encode(s)
     end
     return sum
 end
+
+#=
+Transform a BigInt back into a string, subtracting off the 0xAA.
+=#
 
 function decode(n)
     s = ""
