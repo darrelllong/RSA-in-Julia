@@ -171,3 +171,18 @@ Accepts a BigInt and returns a string.
 =#
 
 decrypt(c, d, n) = decode(powerMod(c, d, n))
+
+(e, d, n) = makeKey(1024);
+
+println("e = $e")
+println("d = $d")
+println("n = $n")
+
+print(">> ")
+for m in eachline()
+    c = encrypt(m, e, n)
+    println("En[$m] = $c")
+    t = decrypt(c, d, n)
+    println("De[$c] = $t")
+    print(">> ")
+end
