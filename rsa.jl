@@ -60,7 +60,7 @@ end
 function isPrime(n, k)
     if n < 2 || (n ≠ 2 && iseven(n)) # 0, 1, and even except for 2 are not prime.
         return false
-    elseif n == 3 # 3 is prime
+    elseif n < 4 # 3 is prime
         return true
     end # We will test all others
     for j in 1:k
