@@ -15,7 +15,7 @@ function powerMod(a, d, n)
         p = p^2 % n
         d >>>= 1
     end
-    return v
+    v
 end
 
 #=
@@ -26,7 +26,7 @@ function gcd(a, b)
     while b ≠ 0
         a, b = b, a % b
     end
-    return a
+    a
 end
 
 #=
@@ -54,7 +54,7 @@ function witness(a, n)
         end
         x = y
     end
-    return x ≠ 1
+    x ≠ 1
 end
 
 function isPrime(n, k)
@@ -69,7 +69,7 @@ function isPrime(n, k)
             return false
         end
     end
-    return true
+    true
 end
 
 #=
@@ -90,7 +90,7 @@ function inverse(a, n)
     if t < 0
         t = t + n
     end
-    return t
+    t
 end
 
 #=
@@ -99,11 +99,11 @@ good enough.
 =#
 
 function randomPrime(low, high)
-    guess = 0   # Certainly not prime!
+    guess = 0 # Certainly not prime!
     while !isPrime(guess, 100)
-        guess = rand(low:high)  # Half will be even, the rest have Pr[prime] ≈ 1/log(N).
+        guess = rand(low:high) # Half will be even, the rest have Pr[prime] ≈ 1/log(N).
     end
-    return guess
+    guess
 end
 
 #=
@@ -115,18 +115,18 @@ An RSA key is a triple (e, d, n):
 
 function makeKey(bits)
     size = bits ÷ 2
-    low  = big"2"^(size - 1)  # Assure the primes are each approximately half of the
-    high = big"2"^size - 1    # bits in the modulus.
+    low  = big"2"^(size - 1) # Assure the primes are each approximately half of the
+    high = big"2"^size - 1   # bits in the modulus.
     p = randomPrime(low, high)
     q = randomPrime(low, high)
-    𝝺 = lcm(p - 1, q - 1)   # Carmichael 𝝺(n) = lcm(𝝺(p), 𝝺(q)) = lcm(p - 1, q - 1)
-    e = 2^16 + 1            # Default public exponent
-    while gcd(e, 𝝺) ≠ 1     # Happens only if we are very unlucky
+    𝝺 = lcm(p - 1, q - 1) # Carmichael 𝝺(n) = lcm(𝝺(p), 𝝺(q)) = lcm(p - 1, q - 1)
+    e = 2^16 + 1          # Default public exponent
+    while gcd(e, 𝝺) ≠ 1   # Happens only if we are very unlucky
         e = randomPrime(low, high)
     end
-    d = inverse(e, 𝝺)   # The private key
-    n = p * q           # The modulus
-    return (e, d, n)
+    d = inverse(e, 𝝺) # The private key
+    n = p * q         # The modulus
+    (e, d, n)
 end
 
 #=
@@ -142,7 +142,7 @@ function encode(s)
         sum += pow * (0xAA ⊻ BigInt(c))
         pow *= 256
     end
-    return sum
+    sum
 end
 
 #=
@@ -156,7 +156,7 @@ function decode(n)
         s = string(s, Char(0xAA ⊻ (n % 256)))
         n ÷= 256
     end
-    return s
+    s
 end
 
 #=
