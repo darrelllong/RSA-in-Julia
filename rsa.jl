@@ -44,7 +44,7 @@ Witness loop of the Miller-Rabin probabilistic primality test.
 function witness(a, n)
     u = n - 1
     t = 0
-    while even(u)
+    while even(u) # n = u * 2^t + 1
         t += 1
         u >>>= 1
     end
