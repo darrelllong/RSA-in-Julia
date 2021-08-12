@@ -88,9 +88,10 @@ function inverse(a, n)
         return "no inverse"
     end
     if t < 0
-        t = t + n
+        t + n
+    else
+        t
     end
-    t
 end
 
 #=
