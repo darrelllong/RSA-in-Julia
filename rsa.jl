@@ -10,7 +10,7 @@ function powerMod(a, d, n)
     v = 1
     p = a
     while d > 0
-        if odd(d)
+        if odd(d) # 1 bit in the exponent
            v = (v * p) % n
         end
         p = p^2 % n
@@ -59,12 +59,11 @@ function witness(a, n)
 end
 
 function isPrime(n, k)
-    if n < 2 || (n ≠ 2 && even(n))
+    if n < 2 || (n ≠ 2 && even(n)) # 0, 1, and even except for 2 are not prime.
         return false
-    end
-    if n < 4
+    elseif n == 3 # 3 is prime
         return true
-    end
+    end # We will test all others
     for j in 1:k
         a = rand(2:n - 2)
         if witness(a, n)
@@ -110,7 +109,6 @@ end
 
 #=
 An RSA key is a triple (e, d, n):
-
     e is the public exponent
     d is the private exponent
     n is the modulus
@@ -134,11 +132,12 @@ end
 
 #=
 Transform a string into a BigInt, add in 0xAA to avoid unpleasantness. Proper PKCS
-padding will have to wait for now.
+padding will have to wait for now. We treat it as a base-256 integer and just pull
+off the digits.
 =#
 
 function encode(s)
-    sum = BigInt(0)
+    sum = BigInt(0) # Force them to be BigInt
     pow = BigInt(1)
     for i in firstindex(s):lastindex(s)
         sum += pow * (0xAA ⊻ BigInt(s[i]))
@@ -148,7 +147,8 @@ function encode(s)
 end
 
 #=
-Transform a BigInt back into a string, subtracting off the 0xAA.
+Transform a BigInt back into a string, subtracting off the 0xAA. We treat it as a base-256
+integer and just pull off the digits.
 =#
 
 function decode(n)
@@ -180,9 +180,7 @@ println("n = $n")
 
 print(">> ")
 for m in eachline()
-    c = encrypt(m, e, n)
-    println("En[$m] = $c")
-    t = decrypt(c, d, n)
-    println("De[$c] = $t")
+    c = encrypt(m, e, n); println("En[$m] = $c")
+    t = decrypt(c, d, n); println("De[$c] = $t")
     print(">> ")
 end
