@@ -24,7 +24,7 @@ Greatest common divisor, Euclidean version.
 
 function gcd(a, b)
     while b ≠ 0
-        (a, b) = (b, a % b)
+        a, b = b, a % b
     end
     return a
 end
@@ -77,12 +77,12 @@ Multiplicative inverse of a (mod n), using Bézout's identity.
 =#
 
 function inverse(a, n)
-    (r, rP) = (n, a)
-    (t, tP) = (0, 1)
+    r, rP = n, a
+    t, tP = 0, 1
     while rP != 0
         q = r ÷ rP
-        (r, rP) = (rP, r - q * rP)
-        (t, tP) = (tP, t - q * tP)
+        r, rP = rP, r - q * rP
+        t, tP = tP, t - q * tP
     end
     if r > 1
         return "no inverse"
