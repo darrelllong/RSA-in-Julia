@@ -138,8 +138,8 @@ off the digits.
 function encode(s)
     sum = BigInt(0) # Force them to be BigInt
     pow = BigInt(1)
-    for i in firstindex(s):lastindex(s)
-        sum += pow * (0xAA ⊻ BigInt(s[i]))
+    for c in s
+        sum += pow * (0xAA ⊻ BigInt(c))
         pow *= 256
     end
     return sum
