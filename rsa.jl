@@ -172,7 +172,11 @@ Accepts a BigInt and returns a string.
 
 decrypt(c, d, n) = decode(powerMod(c, d, n))
 
-(e, d, n) = makeKey(1024);
+print("Bits? ")
+
+bits = parse(Int64, readline())
+
+(e, d, n) = makeKey(bits);
 
 println("e = $e")
 println("d = $d")
