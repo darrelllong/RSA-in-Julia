@@ -40,11 +40,10 @@ Witness loop of the Miller-Rabin probabilistic primality test.
 =#
 
 function witness(a, n)
-    u = n - 1
-    t = 0
+    u, t = n - 1, 0
     while iseven(u) # n = u * 2^t + 1
-        t += 1
-        u >>>= 1
+        t += 1   # Increase exponent
+        u >>>= 1 # Decrease the multiplier
     end
     x = powerMod(a, u, n)
     for i in 1:t
@@ -62,9 +61,9 @@ function isPrime(n, k)
         return false
     elseif n < 4 # 3 is prime
         return true
-    end # We will test all others
+    end # We must test all others
     for j in 1:k
-        a = rand(2:n - 2)
+        a = rand(2:n - 2) # Choose a random witness
         if witness(a, n)
             return false
         end
@@ -172,7 +171,7 @@ Accepts a BigInt and returns a string.
 
 decrypt(c, d, n) = decode(powerMod(c, d, n))
 
-print("Bits? ")
+print("How many bits? ")
 
 bits = parse(Int64, readline())
 
