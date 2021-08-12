@@ -1,8 +1,6 @@
 #!/usr/bin/env julia
 using Random
 
-odd(n) = n % 2 == 1; even(n) = n % 2 == 0
-
 #=
 a^b (mod n) using the method of repeated squares.
 =#
@@ -11,7 +9,7 @@ function powerMod(a, d, n)
     v = 1
     p = a
     while d > 0
-        if odd(d) # 1 bit in the exponent
+        if isodd(d) # 1 bit in the exponent
            v = (v * p) % n
         end
         p = p^2 % n
@@ -44,7 +42,7 @@ Witness loop of the Miller-Rabin probabilistic primality test.
 function witness(a, n)
     u = n - 1
     t = 0
-    while even(u) # n = u * 2^t + 1
+    while iseven(u) # n = u * 2^t + 1
         t += 1
         u >>>= 1
     end
@@ -60,7 +58,7 @@ function witness(a, n)
 end
 
 function isPrime(n, k)
-    if n < 2 || (n ≠ 2 && even(n)) # 0, 1, and even except for 2 are not prime.
+    if n < 2 || (n ≠ 2 && iseven(n)) # 0, 1, and even except for 2 are not prime.
         return false
     elseif n == 3 # 3 is prime
         return true
