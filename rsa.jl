@@ -117,8 +117,8 @@ An RSA key is a triple (e, d, n):
 
 function makeKey(bits)
     size = bits ÷ 2
-    low  = big"2"^(size - 1)    # Assure the primes are each approximately half of the
-    high = big"2"^(size + 1)    # bits in the modulus.
+    low  = big"2"^(size - 1)  # Assure the primes are each approximately half of the
+    high = big"2"^size - 1    # bits in the modulus.
     p = randomPrime(low, high)
     q = randomPrime(low, high)
     𝝺 = lcm(p - 1, q - 1)   # Carmichael 𝝺(n) = lcm(𝝺(p), 𝝺(q)) = lcm(p - 1, q - 1)
