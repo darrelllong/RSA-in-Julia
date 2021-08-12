@@ -1,3 +1,4 @@
+#!/usr/bin/env julia
 using Random
 
 odd(n) = n % 2 == 1; even(n) = n % 2 == 0
