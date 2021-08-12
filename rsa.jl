@@ -136,8 +136,8 @@ off the digits.
 =#
 
 function encode(s)
-    sum = BigInt(0) # Force them to be BigInt
-    pow = BigInt(1)
+    sum::BigInt = 0
+    pow::BigInt = 1
     for c in s
         sum += pow * (0xAA ⊻ BigInt(c))
         pow *= 256
