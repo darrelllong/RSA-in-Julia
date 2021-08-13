@@ -153,7 +153,7 @@ integer and just pull off the digits.
 function decode(n)
     s = ""
     while n > 0
-        s = string(s, Char(0xAA ⊻ (n % 256)))
+        s = s * Char(0xAA ⊻ (n % 256))
         n ÷= 256
     end
     s
