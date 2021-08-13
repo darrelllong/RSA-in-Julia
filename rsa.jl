@@ -1,18 +1,24 @@
 #!/usr/bin/env julia
+
 using Random
 
 #=
 a^b (mod n) using the method of repeated squares.
+
+The key here is that every integer can be written as a sum of powers of 2 (binary numbers)
+and that includes the exponent. By repeated squaring we get a raised to a power of 2. Also
+recall that a^b * a^c = a^(b + c), so rather than adding we multiply since we are dealing
+with the exponent.
 =#
 
 function powerMod(a, d, n)
-    v = 1
-    p = a
+    v = 1 # Value
+    p = a # Powers of a
     while d > 0
         if isodd(d) # 1 bit in the exponent
            v = (v * p) % n
         end
-        p = p^2 % n
+        p = p^2 % n # Next power of two
         d >>>= 1
     end
     v
@@ -78,7 +84,7 @@ Multiplicative inverse of a (mod n), using Bézout's identity.
 function inverse(a, n)
     r, rP = n, a
     t, tP = 0, 1
-    while rP != 0
+    while rP ≠ 0
         q = r ÷ rP
         r, rP = rP, r - q * rP
         t, tP = tP, t - q * tP
@@ -124,8 +130,8 @@ function makeKey(bits)
     while gcd(e, 𝝺) ≠ 1   # Happens only if we are very unlucky
         e = randomPrime(low, high)
     end
-    d = inverse(e, 𝝺) # The private key
-    n = p * q         # The modulus
+    d = inverse(e, 𝝺) # Private key
+    n = p * q         # Modulus
     (e, d, n)
 end
 
