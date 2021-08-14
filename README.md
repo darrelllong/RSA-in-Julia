@@ -1,17 +1,28 @@
 # RSA in Julia
 A simple implementation of RSA in the Julia language.
 
-My first Julia program, while waiting for a Julia book to arrive, so it it not (yet)
-idiomatic Julia.
+Originally written for the students of CSE 13S at the University of California, Santa Cruz.
 
 This is just a demonstration. A truly secure version is much more careful
 with its selection of *p* and *q* to avoid known attacks.
+
+```
+@misc{cryptoeprint:2001:007,
+    author       = {Ronald Rivest and Robert Silverman},
+    title        = {Are 'Strong' Primes Needed for {RSA}?},
+    howpublished = {Cryptology ePrint Archive, Report 2001/007},
+    year         = {2001},
+    note         = {\url{https://ia.cr/2001/007}},
+}
+```
 
 # Usage
 
 ```
 (e, d, n) = makeKey(bits)
+
 c = encrypt("string", e, n)
+
 m = decrypt(c, d, n)
 ```
 
