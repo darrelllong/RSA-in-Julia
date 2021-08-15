@@ -1,5 +1,3 @@
-#!/usr/bin/env julia
-
 using Random
 
 #=
@@ -97,12 +95,13 @@ A safe prime is the one following a Sophie German prime. If prime(p) and prime(2
 
 function safePrime(low, high)
     p = randomPrime(low, high)
-    while not isPrime(2 * p + 1,100)
+    while !isPrime(2 * p + 1,100)
         p = randomPrime(low, high)
     end
     return 2 * p + 1
 end
 
+#=
 Multiplicative inverse of a (mod n), using Bézout's identity.
 =#
 
@@ -147,61 +146,5 @@ function makeKey(bits)
     (e, d, n)
 end
 
-#=
-Transform a string into a BigInt, add in 0xAA to avoid unpleasantness. Proper PKCS
-padding will have to wait for now. We treat it as a base-256 integer and just pull
-off the digits.
-=#
-
-function encode(s)
-    sum::BigInt = 0
-    pow::BigInt = 1
-    for c in s
-        sum += pow * (0xAA ⊻ BigInt(c))
-        pow *= 256
-    end
-    sum
-end
-
-#=
-Transform a BigInt back into a string, subtracting off the 0xAA. We treat it as a base-256
-integer and just pull off the digits.
-=#
-
-function decode(n)
-    s = ""
-    while n > 0
-        s = s * Char(0xAA ⊻ (n % 256))
-        n ÷= 256
-    end
-    s
-end
-
-#=
-Accepts a string and returns a BigInt.
-=#
-
-encrypt(m, e, n) = powerMod(encode(m), e, n)
-
-#=
-Accepts a BigInt and returns a string.
-=#
-
-decrypt(c, d, n) = decode(powerMod(c, d, n))
-
-print("How many bits? ")
-
-bits = parse(Int64, readline())
-
-(e, d, n) = makeKey(bits);
-
-println("e = $e")
-println("d = $d")
-println("n = $n")
-
-print(">> ")
-for m in eachline()
-    c = encrypt(m, e, n); println("En[$m] = $c")
-    t = decrypt(c, d, n); println("De[$c] = $t")
-    print(">> ")
-end
+encrypt(m, e, n) = powerMod(m, e, n)
+decrypt(c, d, n) = powerMod(c, d, n)
