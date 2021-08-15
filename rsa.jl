@@ -78,6 +78,29 @@ function isPrime(n, k)
 end
 
 #=
+We need a random prime number in [low, high] and for now a 1/4^100 chance of a composite is
+good enough.
+=#
+
+function randomPrime(low, high)
+    guess = 0 # Certainly not prime!
+    while !isPrime(guess, 100)
+        guess = rand(low:high) # Half will be even, the rest have Pr[prime] ≈ 1/log(N).
+    end
+    guess
+end
+
+#=
+A safe prime is the one following a Sophie German prime. If prime(p) and prime(2p + 1) then
+2p + 1 is a safe prime.
+#=
+
+def safePrime(low, high):
+    p = randomPrime(low, high)
+    while not isPrime(2 * p + 1,100):
+        p = randomPrime(low, high)
+    return 2 * p + 1
+
 Multiplicative inverse of a (mod n), using Bézout's identity.
 =#
 
@@ -100,19 +123,6 @@ function inverse(a, n)
 end
 
 #=
-We need a random prime number in [low, high] and for now a 1/4^100 chance of a composite is
-good enough.
-=#
-
-function randomPrime(low, high)
-    guess = 0 # Certainly not prime!
-    while !isPrime(guess, 100)
-        guess = rand(low:high) # Half will be even, the rest have Pr[prime] ≈ 1/log(N).
-    end
-    guess
-end
-
-#=
 An RSA key is a triple (e, d, n):
     e is the public exponent
     d is the private exponent
@@ -123,8 +133,8 @@ function makeKey(bits)
     size = bits ÷ 2
     low  = big"2"^(size - 1) # Assure the primes are each approximately half of the
     high = big"2"^size - 1   # bits in the modulus.
-    p = randomPrime(low, high)
-    q = randomPrime(low, high)
+    p = safePrime(low, high)
+    q = safePrime(low, high)
     𝝺 = lcm(p - 1, q - 1) # Carmichael 𝝺(n) = lcm(𝝺(p), 𝝺(q)) = lcm(p - 1, q - 1)
     e = 2^16 + 1          # Default public exponent
     while gcd(e, 𝝺) ≠ 1   # Happens only if we are very unlucky
