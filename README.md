@@ -1,10 +1,10 @@
 # RSA in Julia
 A simple implementation of RSA in the Julia language.
 
-Originally written for the students of CSE 13S at the University of California, Santa Cruz.
+Originally written for the students at the University of California, Santa Cruz.
 
-This is just a demonstration. A truly secure version is much more careful
-with its selection of *p* and *q* to avoid known attacks.
+The implementation uses *safe primes* for *p* and *q*. This can be
+a little slow, but you do not need to do this more than once.
 
 ```
 @misc{cryptoeprint:2001:007,
