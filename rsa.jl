@@ -95,11 +95,13 @@ A safe prime is the one following a Sophie German prime. If prime(p) and prime(2
 2p + 1 is a safe prime.
 =#
 
-def safePrime(low, high):
+function safePrime(low, high)
     p = randomPrime(low, high)
-    while not isPrime(2 * p + 1,100):
+    while not isPrime(2 * p + 1,100)
         p = randomPrime(low, high)
+    end
     return 2 * p + 1
+end
 
 Multiplicative inverse of a (mod n), using Bézout's identity.
 =#
