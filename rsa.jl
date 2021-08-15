@@ -93,7 +93,7 @@ end
 #=
 A safe prime is the one following a Sophie German prime. If prime(p) and prime(2p + 1) then
 2p + 1 is a safe prime.
-#=
+=#
 
 def safePrime(low, high):
     p = randomPrime(low, high)
