@@ -27,7 +27,7 @@ function main()
         c = parse(BigInt, readline(infile))
         m = decrypt(c, d, n)
         bytes = hex2bytes(string(m, base=16))
-        write(outfile, bytes[1:length(bytes)])
+        write(outfile, bytes[2:length(bytes)])
     end
 
     close(infile)
