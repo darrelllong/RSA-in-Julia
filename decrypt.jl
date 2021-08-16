@@ -26,15 +26,8 @@ function main()
     while !eof(infile)
         c = parse(BigInt, readline(infile))
         m = decrypt(c, d, n)
-
-        hexstr = string(m, base=16)
-        if isodd(length(hexstr))
-            hexstr = "0" * hexstr
-        end
-
-        bytes = hex2bytes(hexstr)
-        bytes = bytes[1:length(bytes)]
-        write(outfile, bytes)
+        bytes = hex2bytes(string(m, base=16))
+        write(outfile, bytes[1:length(bytes)])
     end
 
     close(infile)
