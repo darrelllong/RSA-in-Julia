@@ -23,11 +23,9 @@ function main()
     n = parse(BigInt, readline(pubkey))
     e = parse(BigInt, readline(pubkey))
 
-    block = ((log2(n) - 1) ÷ 8) - 1
+    block = (floor(UInt64, log2(n)) - 1) ÷ 8
     while !eof(infile)
-        bytes = UInt8[]
-        readbytes!(infile, bytes, block)
-        bytes = prepend!(bytes, [0xFF])
+        bytes = prepend!(read(infile, block - 1), [0xFF])
         m = parse(BigInt, "0x" * bytes2hex(bytes))
         c = encrypt(m, e, n)
         println(outfile, c)
