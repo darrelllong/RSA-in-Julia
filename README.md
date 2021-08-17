@@ -4,6 +4,19 @@ A simple implementation of RSA in the Julia language.
 
 Originally written for the students at the University of California, Santa Cruz.
 
+```
+@article{rivest1978method,
+  title={A method for obtaining digital signatures and public-key cryptosystems},
+  author={Rivest, Ronald and Shamir, Adi and Adleman, Leonard},
+  journal={Communications of the ACM},
+  volume={21},
+  number={2},
+  pages={120--126},
+  year={1978},
+  publisher={ACM New York, NY, USA}
+}
+```
+
 The implementation uses *safe primes* for *p* and *q*. This can be
 a little slow, but you do not need to do this more than once.
 
