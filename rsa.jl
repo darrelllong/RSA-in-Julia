@@ -1,5 +1,15 @@
 using Random
 
+# mod must always be positive
+
+function mod(a, n)
+    if (t = a % n) < 0
+        n + t
+    else
+        t
+    end
+end
+
 #=
 a^b (mod n) using the method of repeated squares.
 
@@ -14,9 +24,9 @@ function powerMod(a, d, n)
     p = a # Powers of a
     while d > 0
         if isodd(d) # 1 bit in the exponent
-           v = (v * p) % n
+           v = mod(v * p, n)
         end
-        p = p^2 % n # Next power of two
+        p = mod(p^2, n) # Next power of two
         d >>>= 1
     end
     v
@@ -28,7 +38,7 @@ Greatest common divisor, Euclidean version.
 
 function gcd(a, b)
     while b ≠ 0
-        a, b = b, a % b
+        a, b = b, mod(a, b)
     end
     a
 end
